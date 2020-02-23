@@ -1,6 +1,5 @@
 <template>
   <div class="Home">
-    <h1>Realization-item-view</h1>
     <RealizationItem />
   </div>
 </template>

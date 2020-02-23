@@ -7,8 +7,7 @@
           name: 'Realizations',
           params: { id: item.routeUrl, name: item.name, courses: item.courses } // Välitetään router-linkillä data, esim. koulutusalan tarjolla olevat toteutukset
         }"
-      >{{ item.name }}</router-link>|
-      <router-link to="/realizations">testeri</router-link>
+      >{{ item.name }}</router-link>
     </div>
   </div>
 </template>

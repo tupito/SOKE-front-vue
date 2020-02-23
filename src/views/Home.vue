@@ -1,7 +1,8 @@
 <template>
   <div class="Home">
-    <p class="todo">Todo: WelcomeTxt-component</p>
-    <!--koulutusalat-->
+    <!-- aloitussivun tekstit -->
+    <WelcomeTxt />
+    <!-- koulutusalat -->
     <EducationalFields />
   </div>
 </template>
@@ -9,11 +10,13 @@
 <script>
 // @ is an alias to /src
 import EducationalFields from "@/components/EducationalFields.vue";
+import WelcomeTxt from "@/components/WelcomeTxt.vue";
 
 export default {
   name: "Home-view",
   components: {
-    EducationalFields
+    EducationalFields,
+    WelcomeTxt
   }
 };
 </script>
