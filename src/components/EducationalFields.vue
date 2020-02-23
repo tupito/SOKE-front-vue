@@ -21,11 +21,19 @@ const dummyData = [
     courses: [
       {
         courseName:
-          "Yritystoiminta ja yrittäjyys, 3 op, 26.08.2019 - 31.05.2020"
+          "Yritystoiminta ja yrittäjyys, 3 op, 26.08.2019 - 31.05.2020",
+        time: "26.08.2019 - 31.05.2020",
+        registrationTime: "01.11.2019 - 24.02.2020",
+        teachingMode: "verkko-opinto",
+        courseId: 1
       },
       {
         courseName:
-          "Tutkimus- ja kehittämistyön perusteet, 2 op, 26.08.2019 - 31.05.2020"
+          "Tutkimus- ja kehittämistyön perusteet, 2 op, 26.08.2019 - 31.05.2020",
+        time: "07.03.2020 - 31.05.2020",
+        registrationTime: "15.10.2019 - 28.02.2020",
+        teachingMode: "verkko-opinto",
+        courseId: 2
       }
     ]
   },

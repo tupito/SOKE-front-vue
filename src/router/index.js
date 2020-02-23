@@ -4,10 +4,17 @@ import VueInfo from "../views/VueInfo.vue"; //malli, todo: siivoa
 
 import EducationalFields from "../views/Home.vue"; // koulutusalat
 import Realizations from "../views/Realizations.vue"; // opintojaksot
+import RealizationItem from "../views/RealizationItem.vue"; // yksittäinen opintojakso
 
 Vue.use(VueRouter);
 
 const routes = [
+  // yksittäisen opinto jakson tiedot
+  {
+    path: "/realization-item/:id",
+    name: "RealizationItem",
+    component: RealizationItem
+  },
   // koulutusalan toteutusvalintasivu
   {
     path: "/realizations/:id",
