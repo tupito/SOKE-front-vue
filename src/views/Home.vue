@@ -1,9 +1,7 @@
 <template>
   <div class="Home">
     <h1>Avoin AMK -opintotarjonta SeAMK:ssa [View:Home.vue]</h1>
-    <p>Todo: kuva tähän</p>
-    <p>Todo: listaa koulutusalat linkkeineen</p>
-
+    <p class="todo">Todo: WelcomeTxt-component</p>
     <Koulutusalat />
   </div>
 </template>
@@ -13,11 +11,15 @@
 import Koulutusalat from "@/components/Koulutusalat.vue";
 
 export default {
-  name: "Home",
+  name: "Home-view",
   components: {
     Koulutusalat
   }
 };
 </script>
 
-<style></style>
+<style>
+.todo {
+  background-color: yellow;
+}
+</style>
