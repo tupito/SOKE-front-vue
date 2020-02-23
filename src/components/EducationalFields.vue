@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Koulutusalat (Opintotarjonta) [Component: Koulutusalat.vue]</h2>
-    <div v-for="item in koulutusalat" :key="item.id">
+    <h2>Koulutusalat (Opintotarjonta)</h2>
+    <div v-for="item in educationalFields" :key="item.id">
       <router-link
         :to="{
           name: 'Realizations',
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-const koulutusalatDummy = [
+const dummyData = [
   {
     name: "Kauppa, hallinto ja oikeustieteet",
     routeUrl: "kauppa-hallinto-ja-oikeustieteet",
@@ -50,10 +50,10 @@ const koulutusalatDummy = [
 ];
 
 export default {
-  name: "Koulutusalat-component",
+  name: "EducationalFields-component",
   data: function() {
     return {
-      koulutusalat: koulutusalatDummy
+      educationalFields: dummyData
     };
   }
 };

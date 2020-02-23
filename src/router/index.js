@@ -1,8 +1,9 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import VueInfo from "../views/VueInfo.vue";
-import Koulutusalat from "../views/Home.vue";
-import Realizations from "../views/Realizations.vue";
+import VueRouter from "vue-router"; //malli, todo: siivoa
+import VueInfo from "../views/VueInfo.vue"; //malli, todo: siivoa
+
+import EducationalFields from "../views/Home.vue"; // koulutusalat
+import Realizations from "../views/Realizations.vue"; // opintojaksot
 
 Vue.use(VueRouter);
 
@@ -16,8 +17,8 @@ const routes = [
   // aloitussivu / koulutusalan valinta
   {
     path: "/",
-    name: "Koulutusalat",
-    component: Koulutusalat
+    name: "EducationalFields",
+    component: EducationalFields
     //component: () => import("../views/Koulutusalat.vue")
   },
   // malli, todo: siivoa pois
