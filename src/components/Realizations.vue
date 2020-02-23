@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Realizations for {{ $route.params.name }}</h2>
+    <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div v-for="item in courses" :key="item.id">{{ item.courseName }}</div>
   </div>
 </template>

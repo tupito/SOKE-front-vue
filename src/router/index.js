@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   // koulutusalan toteutusvalintasivu
   {
-    path: "realizations/:id",
+    path: "/realizations/:id",
     name: "Realizations",
     component: Realizations
   },
