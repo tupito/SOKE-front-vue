@@ -1,10 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import VueInfo from "../views/VueInfo.vue";
+import Koulutusalat from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "Koulutusalat",
+    component: Koulutusalat
+    //component: () => import("../views/Koulutusalat.vue")
+  },
   {
     path: "/vueinfo",
     name: "VueInfo",
