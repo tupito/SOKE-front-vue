@@ -8,6 +8,7 @@
           params: { id: item.routeUrl, name: item.name, courses: item.courses } // Välitetään router-linkillä data, esim. koulutusalan tarjolla olevat toteutukset
         }"
       >{{ item.name }}</router-link>
+      ( Avoinna olevat opintojaksot: {{ item.courses.length }} )
     </div>
   </div>
 </template>
@@ -29,6 +30,13 @@ const dummyData = [
       {
         courseName:
           "Tutkimus- ja kehittämistyön perusteet, 2 op, 26.08.2019 - 31.05.2020",
+        time: "07.03.2020 - 31.05.2020",
+        registrationTime: "15.10.2019 - 28.02.2020",
+        teachingMode: "verkko-opinto",
+        courseId: 2
+      },
+      {
+        courseName: "Saksa 3, 3 op, 26.08.2019 - 31.07.2020",
         time: "07.03.2020 - 31.05.2020",
         registrationTime: "15.10.2019 - 28.02.2020",
         teachingMode: "verkko-opinto",
