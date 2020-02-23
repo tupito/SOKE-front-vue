@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header />
     <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/vueinfo">Vue info</router-link>|
@@ -13,7 +14,8 @@
 <script>
 // @ is an alias to /src
 import Footer from "@/components/Footer.vue";
-export default { components: { Footer } };
+import Header from "@/components/Header.vue";
+export default { components: { Footer, Header } };
 </script>
 
 <style>

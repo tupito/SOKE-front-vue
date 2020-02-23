@@ -1,6 +1,5 @@
 <template>
   <div class="Home">
-    <h1>Avoin AMK -opintotarjonta SeAMK:ssa [View:Home.vue]</h1>
     <p class="todo">Todo: WelcomeTxt-component</p>
     <!--koulutusalat-->
     <EducationalFields />
