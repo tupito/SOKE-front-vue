@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>{{ courseInfo.courseName }}</h2>
+    <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
-      <p>Aika: {{ courseInfo.time }}</p>
-      <p>Ilmoittautumisaika: {{ courseInfo.registrationTime }}</p>
-      <p>Opetusmuoto: {{ courseInfo.teachingMode }}</p>
+      <p>Aika: {{ realizationItem.startDate }}</p>
+      <p>Ilmoittautumisaika: {{ realizationItem.enrollmentStart }}</p>
+      <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   name: "RealizationItem-component",
   data() {
     return {
-      courseInfo: this.$route.params.courseInfo
+      realizationItem: this.$route.params.realization
     };
   }
 };

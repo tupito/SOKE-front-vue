@@ -5,9 +5,12 @@
       <router-link
         :to="{
           name: 'RealizationItem',
-          params: { id: item.courseId, courseInfo: item }
+          params: { id: item.id, realization: item }
         }"
-      >{{ item.courseName }}</router-link>
+      >
+        {{ item.courseUnit.localizedName.valueFi }}
+        {{ item.code }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -18,7 +21,7 @@ export default {
   data() {
     return {
       // $route.params = haetaan välitettyjä tietoja router-link:ltä
-      courses: this.$route.params.courses
+      courses: this.$route.params.realizations
     };
   }
 };
