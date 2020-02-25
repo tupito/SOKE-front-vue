@@ -1,4 +1,5 @@
-<!-- haku + sort -malli https://jsfiddle.net/f8p52n04/4/ 
+<!-- 
+haku + sort -malli https://jsfiddle.net/f8p52n04/4/ 
 computed: filteredList
 methods: findBy, orderBy, sort
 -->
@@ -8,7 +9,6 @@ methods: findBy, orderBy, sort
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div>
       <input type="text" v-model="searchName" placeholder="etsi nimellä" />
-      <button v-on:click="filterRealizations()">todo filterRealizations</button>
       <button
         v-on:click="
           changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
@@ -23,7 +23,7 @@ methods: findBy, orderBy, sort
       >Järjestä nimen mukaan</button>
     </div>
 
-    <div v-for="item in sortedRealizations" :key="item.id">
+    <div v-for="item in filteredList" :key="item.id">
       <router-link
         :to="{
           name: 'RealizationItem',
@@ -35,7 +35,6 @@ methods: findBy, orderBy, sort
         päättyy: {{ item.vEnrollmentEnd }})
       </router-link>
     </div>
-    <div v-for="item in filteredList" :key="item.id">{{ item.vLocalizedNameFi }}</div>
   </div>
 </template>
 
@@ -63,34 +62,33 @@ export default {
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
   computed: {
-    // järjestetään lista parametrin (esim. nimi) ja järjestyssuunnan (nouseva/laskeva) perusteella
-    sortedRealizations() {
-      console.log("start sort...", this.sortParam);
-      if (this.sortParam) {
-        // ei mutatoida alkuperäistä dataa, vaan otetaan siitä kopio
-        return this.realizations.slice().sort((a, b) => {
-          if (this.reverseSort) {
-            // normijärjestys
-            return b[this.sortParam].localeCompare(a[this.sortParam]);
-          } else {
-            // käänteinen järjestys
-            return a[this.sortParam].localeCompare(b[this.sortParam]);
-          }
-        });
-      } else {
-        // ei järjestysparametria, palautetaan alkuperäinen lista
-        return this.realizations;
-      }
-    },
     filteredList() {
-      return this.realizations.filter(realization => {
-        return realization.vLocalizedNameFi
-          .toLowerCase()
-          .includes(this.searchName.toLowerCase());
-      });
+      let filteredList = this.filter(this.realizations, this.searchName); // suodatus hakukentän mukaan
+      filteredList = this.order(filteredList, this.sortParam, this.reverseSort); // järjestäminen (nouseva/laskeva)
+      return filteredList;
     }
   },
   methods: {
+    filter(list, value) {
+      console.log("filter...", list, value);
+      return list.filter(realization => {
+        return realization.vLocalizedNameFi
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      });
+    },
+    order(list, param, order) {
+      console.log("order...", list, param, order);
+      if (param) {
+        return list.sort((a, b) => {
+          return order
+            ? a[param].localeCompare(b[param]) // sort
+            : -a[param].localeCompare(b[param]); // reverse sort
+        });
+      } else {
+        return list;
+      }
+    },
     addViewVariables() {
       // yksinkertaistetaan dataa järjestämisen helpottamiseksi
       this.realizations.forEach(elem => {
@@ -100,9 +98,6 @@ export default {
         elem.vEnrollmentStart = lib.toFinDate(elem.enrollmentStart); // näytettävä pvm Suomi-muotoon
         elem.vEnrollmentEnd = lib.toFinDate(elem.enrollmentEnd); // näytettävä pvm Suomi-muotoon
       });
-    },
-    filterRealizations() {
-      console.log("filterRealizations");
     },
     changeParam(param) {
       // muutetaan järjestysparametria
