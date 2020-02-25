@@ -5,19 +5,18 @@
       <button v-on:click="filterRealizations()">todo filterRealizations</button>
       <button
         v-on:click="
-          changeParam('enrollmentEnd');
+          changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
       >Järjestä ilmoittautumisen päättymisen mukaan</button>
       <button
         v-on:click="
-          changeParam('localizedNameFi');
+          changeParam('vLocalizedNameFi');
           reverseSort = !reverseSort;
         "
       >Järjestä nimen mukaan</button>
     </div>
 
-    <!-- <div v-for="item in realizationsWithFinnishDates" :key="item.id"> -->
     <div v-for="item in sortedRealizations" :key="item.id">
       <router-link
         :to="{
@@ -25,9 +24,9 @@
           params: { id: item.id, realization: item }
         }"
       >
-        {{ item.localizedNameFi }}
-        ( {{ item.startDate }} - {{ item.endDate }} ) ( ilmoittautuminen
-        päättyy: {{ item.enrollmentEnd }})
+        {{ item.vLocalizedNameFi }}
+        ( {{ item.vStartDate }} - {{ item.vEndDate }} ) ( ilmoittautuminen
+        päättyy: {{ item.vEnrollmentEnd }})
       </router-link>
     </div>
   </div>
@@ -35,7 +34,7 @@
 
 <script>
 import { exampleMixin } from "@/mixins/exampleMixin.js";
-//import lib from "@/lib/customFunctions.js";
+import lib from "@/lib/customFunctions.js";
 
 export default {
   name: "Realizations-component",
@@ -43,57 +42,55 @@ export default {
   created() {
     console.log("Realizations-component called");
   },
+  // kutsutaan ennen DOM:iin liittämistä
   beforeMount() {
-    // simplify nested data for sorting
-    this.simplifyNestedData();
+    this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi
   },
   data() {
     return {
-      // $route.params = haetaan välitettyjä tietoja router-link:ltä
-      realizations: this.$route.params.realizations,
-      sortParam: "",
-      reverseSort: false
+      realizations: this.$route.params.realizations, // tietoja router-link:ltä
+      sortParam: "", // järjestämisparametri
+      reverseSort: false // käänteinen järjestämisjärjestys
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
   computed: {
-    // Näytetään toteutusten päivämäärät suomalaisessa muodossa (2020-05-31T23:59:00 -> 31.5.2020)
-    /*     realizationsWithFinnishDates() {
-      console.log("computed");
-      let realizationFinDates = this.realizations;
-      realizationFinDates.forEach(elem => {
-        elem.startDate = lib.toFinDate(elem.startDate);
-        elem.endDate = lib.toFinDate(elem.endDate);
-        elem.enrollmentStart = lib.toFinDate(elem.enrollmentStart);
-        elem.enrollmentEnd = lib.toFinDate(elem.enrollmentEnd);
-      });
-      return realizationFinDates;
-    }, */
+    // järjestetään lista parametrin (esim. nimi) ja järjestyssuunnan (nouseva/laskeva) perusteella
     sortedRealizations() {
-      console.log(this.sortParam, this.reverseSort);
+      console.log("start sort...", this.sortParam);
       if (this.sortParam) {
+        // ei mutatoida alkuperäistä dataa, vaan otetaan siitä kopio
         return this.realizations.slice().sort((a, b) => {
           if (this.reverseSort) {
+            // normijärjestys
             return b[this.sortParam].localeCompare(a[this.sortParam]);
           } else {
+            // käänteinen järjestys
             return a[this.sortParam].localeCompare(b[this.sortParam]);
           }
         });
       } else {
+        // ei järjestysparametria, palautetaan alkuperäinen lista
         return this.realizations;
       }
     }
   },
   methods: {
-    simplifyNestedData() {
+    addViewVariables() {
+      // yksinkertaistetaan dataa järjestämisen helpottamiseksi
       this.realizations.forEach(elem => {
-        elem.localizedNameFi = elem.courseUnit.localizedName.valueFi;
+        elem.vLocalizedNameFi = elem.courseUnit.localizedName.valueFi; // nested-muuttuja, helpommin vertailtavaan muuttujaan
+        elem.vStartDate = lib.toFinDate(elem.startDate); // näytettävä pvm Suomi-muotoon
+        elem.vEndDate = lib.toFinDate(elem.endDate); // näytettävä pvm Suomi-muotoon
+        elem.vEnrollmentStart = lib.toFinDate(elem.enrollmentStart); // näytettävä pvm Suomi-muotoon
+        elem.vEnrollmentEnd = lib.toFinDate(elem.enrollmentEnd); // näytettävä pvm Suomi-muotoon
       });
     },
     filterRealizations() {
       console.log("filterRealizations");
     },
     changeParam(param) {
+      // muutetaan järjestysparametria
       this.sortParam = param;
     }
   }
