@@ -2,8 +2,15 @@
   <div>
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
-      <p>Aika: {{ realizationItem.startDate }}</p>
-      <p>Ilmoittautumisaika: {{ realizationItem.enrollmentStart }}</p>
+      <p>Koodi: {{ realizationItem.code }}</p>
+      <p>
+        Aika: {{ realizationItem.startDate }} -
+        {{ realizationItem.endDate }}
+      </p>
+      <p>
+        Ilmoittautumisaika: {{ realizationItem.enrollmentStart }} -
+        {{ realizationItem.enrollmentEnd }}
+      </p>
       <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
   </div>
