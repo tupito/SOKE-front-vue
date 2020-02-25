@@ -8,19 +8,23 @@ methods: findBy, orderBy, sort
   <div>
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div>
-      <input type="text" v-model="searchName" placeholder="etsi nimellä" />
-      <button
+      <input type="text" v-model="searchName" placeholder="etsi opintojaksoa nimellä..." />
+      <div
+        class="btn"
+        v-if="reverseSort"
         v-on:click="
           changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
-      >Järjestä ilmoittautumisen päättymisen mukaan</button>
-      <button
+      >Järjestä: Ilmoittautuminen (vanhat ensin)</div>
+      <div
+        class="btn"
+        v-else
         v-on:click="
-          changeParam('vLocalizedNameFi');
+          changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
-      >Järjestä nimen mukaan</button>
+      >Järjestä: Ilmoittautuminen (uudet ensin)</div>
     </div>
 
     <div v-for="item in filteredList" :key="item.id">
@@ -107,4 +111,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn {
+  border: 1px solid black;
+  width: 30%;
+  margin: 5px;
+  font-size: small;
+  background-color: lightblue;
+  display: inline-block;
+  padding: 1px;
+}
+</style>
