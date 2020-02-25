@@ -1,7 +1,13 @@
+<!-- haku + sort -malli https://jsfiddle.net/f8p52n04/4/ 
+computed: filteredList
+methods: findBy, orderBy, sort
+-->
+
 <template>
   <div>
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div>
+      <input type="text" v-model="searchName" placeholder="etsi nimellä" />
       <button v-on:click="filterRealizations()">todo filterRealizations</button>
       <button
         v-on:click="
@@ -29,6 +35,7 @@
         päättyy: {{ item.vEnrollmentEnd }})
       </router-link>
     </div>
+    <div v-for="item in filteredList" :key="item.id">{{ item.vLocalizedNameFi }}</div>
   </div>
 </template>
 
@@ -50,7 +57,8 @@ export default {
     return {
       realizations: this.$route.params.realizations, // tietoja router-link:ltä
       sortParam: "", // järjestämisparametri
-      reverseSort: false // käänteinen järjestämisjärjestys
+      reverseSort: false, // käänteinen järjestämisjärjestys,
+      searchName: "" // haku
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
@@ -73,6 +81,13 @@ export default {
         // ei järjestysparametria, palautetaan alkuperäinen lista
         return this.realizations;
       }
+    },
+    filteredList() {
+      return this.realizations.filter(realization => {
+        return realization.vLocalizedNameFi
+          .toLowerCase()
+          .includes(this.searchName.toLowerCase());
+      });
     }
   },
   methods: {
