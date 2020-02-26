@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2>Koulutusalat (Opintotarjonta)</h2>
-    <div v-for="item in educationalFields" :key="item.id">
+    <div v-if="!educationalFields" class="error">Tietojen hakeminen ei onnistunut...</div>
+    <div v-else v-for="item in educationalFields" :key="item.id">
       <router-link
         :to="{
           name: 'Realizations',
@@ -37,6 +38,7 @@ export default {
         this.educationalFields = response.data.data;
       })
       .catch(error => {
+        this.educationalFields = null;
         this.apiResponse = "api error";
         console.log(error);
       });
@@ -44,4 +46,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.error {
+  background-color: lightcoral;
+}
+</style>
