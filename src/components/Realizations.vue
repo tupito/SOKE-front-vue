@@ -13,7 +13,7 @@ methods: findBy, orderBy, sort
         class="btn"
         v-if="reverseSort"
         v-on:click="
-          changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
+          changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
       >Järjestä: Ilmoittautuminen (vanhat ensin)</div>
@@ -21,10 +21,12 @@ methods: findBy, orderBy, sort
         class="btn"
         v-else
         v-on:click="
-          changeParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
+          changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
       >Järjestä: Ilmoittautuminen (uudet ensin)</div>
+
+      <div class="btn" v-on:click="hidePastEnrollments != hidePastEnrollments">Piilota menneet</div>
     </div>
 
     <div v-for="item in filteredList" :key="item.id">
@@ -61,7 +63,8 @@ export default {
       realizations: this.$route.params.realizations, // tietoja router-link:ltä
       sortParam: "", // järjestämisparametri
       reverseSort: false, // käänteinen järjestämisjärjestys,
-      searchName: "" // haku
+      searchName: "", // haku
+      hidePastEnrollments: false // piilota menneet
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
@@ -103,7 +106,7 @@ export default {
         elem.vEnrollmentEnd = lib.toFinDate(elem.enrollmentEnd); // näytettävä pvm Suomi-muotoon
       });
     },
-    changeParam(param) {
+    changeSortingParam(param) {
       // muutetaan järjestysparametria
       this.sortParam = param;
     }
@@ -120,5 +123,6 @@ export default {
   background-color: lightblue;
   display: inline-block;
   padding: 1px;
+  cursor: pointer;
 }
 </style>
