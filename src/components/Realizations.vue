@@ -70,8 +70,6 @@ export default {
       reverseSort: false, // käänteinen järjestämisjärjestys,
       searchName: "", // haku
       hidePastEnrollments: false // piilota menneet
-      //hideBtnTxt = ,
-      //sortBtnTxt =
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
