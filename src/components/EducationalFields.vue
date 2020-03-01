@@ -37,7 +37,7 @@ export default {
   methods: {
     async fetch() {
       const { data } = await EducationalFieldsRepository.get();
-      this.educationalFields = data.data;
+      this.educationalFields = data;
     }
   }
 };

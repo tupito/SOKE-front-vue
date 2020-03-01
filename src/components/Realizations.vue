@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="realizations.length < 1" class="error">Tietojen hakeminen ei onnistunut...</div>
+  <div v-else>
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div class="searchConditions">
       <h3>Suodata/järjestä hakutuloksia</h3>
@@ -27,7 +28,6 @@
 
     <h3 v-if="hidePastEnrollments">Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
     <h3 v-else>Kaikki opintojaksot</h3>
-
     <div v-for="item in filteredList" :key="item.id">
       <router-link
         :to="{
@@ -44,28 +44,38 @@
 </template>
 
 <script>
-import { exampleMixin } from "@/mixins/exampleMixin.js";
-import lib from "@/lib/customFunctions.js";
+import { exampleMixin } from "@/mixins/exampleMixin.js"; // vain mallina
+import lib from "@/lib/customFunctions.js"; // omat funktiot
+import { RepositoryFactory } from "@/repositories/RepositoryFactory";
+
+const RealizationsRepository = RepositoryFactory.get("realizations"); // apin kautta haettava data
 
 export default {
   name: "Realizations-component",
   mixins: [exampleMixin],
-  created() {
-    console.log("Realizations-component called");
-  },
-  // kutsutaan ennen DOM:iin liittämistä
-  beforeMount() {
-    this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
-  },
+
   data() {
     return {
-      realizations: this.$route.params.realizations, // opintojaksot router-link:ltä
+      realizations: [], // opintojaksot, haetaan joko routerlinkiltä tai erillisellä API-kutsulla
       sortParam: "", // järjestämisparametri (harjoitustyössä vain ilmoittautumisen päättymispäivä)
       searchInput: "", // haku
       reverseSort: false, // käänteinen järjestämisjärjestys
       hidePastEnrollments: false // piilota menneet
     };
   },
+
+  created() {
+    let rParams = this.$route.params.realizations;
+    if (rParams) {
+      // opintojaksojen data ensisijaisesti router-link:ltä (= ei erillistä API-kutsua)
+      this.realizations = rParams;
+      this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+    } else {
+      // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä tai painaa selaimen back-nappulaa opintojakson tiedoissa
+      this.fetch();
+    }
+  },
+
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
   computed: {
     filteredList() {
@@ -80,15 +90,15 @@ export default {
   },
   methods: {
     filter(list, value) {
-      console.log("filter...", list, value);
       return list.filter(realization => {
-        return realization.vLocalizedNameFi
-          .toLowerCase() // kaikki kirjaimet pieniksi vertailua varten
-          .includes(value.toLowerCase());
+        if (realization) {
+          return realization.vLocalizedNameFi
+            .toLowerCase() // kaikki kirjaimet pieniksi vertailua varten
+            .includes(value.toLowerCase());
+        }
       });
     },
     order(list, param, order) {
-      console.log("order...", list, param, order);
       if (param) {
         return list.sort((a, b) => {
           return order
@@ -100,7 +110,6 @@ export default {
       }
     },
     filterPastEnrollments(list, hidePastEnrollments) {
-      console.log("filterDate...", list, hidePastEnrollments);
       // halutaanko suodattaa umpeutuneet pois listasta
       if (hidePastEnrollments) {
         return list.filter(realization => {
@@ -116,7 +125,7 @@ export default {
     },
 
     addViewVariables() {
-      // yksinkertaistetaan dataa järjestämisen helpottamiseksi
+      // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
       this.realizations.forEach(elem => {
         elem.vLocalizedNameFi = elem.courseUnit.localizedName.valueFi; // nested-muuttuja, helpommin vertailtavaan muuttujaan
         elem.vStartDate = lib.toFinDate(elem.startDate); // näytettävä pvm Suomi-muotoon
@@ -128,6 +137,13 @@ export default {
     changeSortingParam(param) {
       // muutetaan järjestysparametria
       this.sortParam = param;
+    },
+    async fetch() {
+      console.log("API CALL TRIGGERED");
+      const educationalFieldId = this.$route.params.id; // haetaan id-tieto urlsta
+      const { data } = await RealizationsRepository.get(educationalFieldId);
+      this.realizations = data[0].realizations;
+      this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
     }
   }
 };
