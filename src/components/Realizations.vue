@@ -26,8 +26,20 @@ methods: findBy, orderBy, sort
         "
       >Järjestä: Ilmoittautuminen (uudet ensin)</div>
 
-      <div class="btn" v-on:click="hidePastEnrollments != hidePastEnrollments">Piilota menneet</div>
+      <div
+        v-if="hidePastEnrollments"
+        class="btn"
+        v-on:click="hidePastEnrollments = !hidePastEnrollments"
+      >Näytä kaikki</div>
+      <div
+        v-else
+        class="btn"
+        v-on:click="hidePastEnrollments = !hidePastEnrollments"
+      >Piilota ne, joissa ilmoittautuminen umpeutunut</div>
     </div>
+
+    <h3 v-if="hidePastEnrollments">Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
+    <h3 v-else>Kaikki opintojaksot</h3>
 
     <div v-for="item in filteredList" :key="item.id">
       <router-link
@@ -72,6 +84,10 @@ export default {
     filteredList() {
       let filteredList = this.filter(this.realizations, this.searchName); // suodatus hakukentän mukaan
       filteredList = this.order(filteredList, this.sortParam, this.reverseSort); // järjestäminen (nouseva/laskeva)
+      filteredList = this.filterPastEnrollments(
+        filteredList,
+        this.hidePastEnrollments
+      ); // piilota/näytä ne, joissa ilmoittautumisaika umpeutunut
       return filteredList;
     }
   },
@@ -96,6 +112,22 @@ export default {
         return list;
       }
     },
+    filterPastEnrollments(list, hidePastEnrollments) {
+      console.log("filterDate...", list, hidePastEnrollments);
+      // halutaanko suodattaa umpeutuneet pois listasta
+      if (hidePastEnrollments) {
+        return list.filter(realization => {
+          // muutetaan vertailtavat päivämäärät UNIX-aikaan vertailua varten
+          let realizationEndDate = Date.parse(realization.enrollmentEnd); // ilmoittautumisen päättyminen
+          let dateNow = Date.parse(Date(Date.now())); // nykyhetki
+          return realizationEndDate > dateNow;
+        });
+      } else {
+        // ei muokata suodatettua listaa
+        return list;
+      }
+    },
+
     addViewVariables() {
       // yksinkertaistetaan dataa järjestämisen helpottamiseksi
       this.realizations.forEach(elem => {

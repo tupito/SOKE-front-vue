@@ -1,7 +1,11 @@
 <template>
   <div>
     <hr />
-    <p>Huom. Sovelluksessa käytettävää dataa on karsittu todellisesta määrästä</p>
+    <p>
+      Huom. sovelluksessa käytettävä data ei vastaa todellista dataa: Kyseessä
+      on vain hyvin pieni otos, jonka tietoja on muutettu tähän harjoitustyöhön
+      sopivaksi.
+    </p>
   </div>
 </template>
 
