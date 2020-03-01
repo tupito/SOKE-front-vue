@@ -1,9 +1,11 @@
 import educationalFieldsRepository from "./educationFieldsRepository";
 
+// apin kautta haettavien tietojen repositoriot
 const repositories = {
-  educationalFields: educationalFieldsRepository
+  educationalFields: educationalFieldsRepository // koulutusalat
+  // muut repositoriot tänne...
 };
-console.log("repositories", repositories);
+
 export const RepositoryFactory = {
   get: name => repositories[name]
 };

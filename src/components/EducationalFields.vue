@@ -21,7 +21,7 @@
 
 <script>
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
-const EducationalFieldsRepository = RepositoryFactory.get("educationalFields");
+const EducationalFieldsRepository = RepositoryFactory.get("educationalFields"); // apin kautta haettava data
 
 export default {
   name: "EducationalFields-component",
@@ -36,27 +36,10 @@ export default {
   },
   methods: {
     async fetch() {
-      console.log("async fetch...");
-      //console.log("EducationalFieldsRepository", EducationalFieldsRepository);
       const { data } = await EducationalFieldsRepository.get();
-      console.log(data);
       this.educationalFields = data.data;
     }
   }
-  // mounted = kutsutaan kun DOM on kiinnitetty
-  /*   mounted() {
-
-     axios
-      .get("http://localhost:3000/educationalFields")
-      .then(response => {
-        this.educationalFields = response.data.data;
-      })
-      .catch(error => {
-        this.educationalFields = null;
-        this.apiResponse = "api error";
-        console.log(error);
-      }); 
-  } */
 };
 </script>
 

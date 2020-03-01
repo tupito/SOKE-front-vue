@@ -1,15 +1,9 @@
-<!-- 
-haku + sort -malli https://jsfiddle.net/f8p52n04/4/ 
-computed: filteredList
-methods: findBy, orderBy, sort
--->
-
 <template>
   <div>
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div class="searchConditions">
       <h3>Suodata/järjestä hakutuloksia</h3>
-      <input type="text" v-model="searchName" placeholder="etsi opintojaksoa nimellä..." />
+      <input type="text" v-model="searchInput" placeholder="etsi opintojaksoa nimellä..." />
       <div
         class="btn"
         v-on:click="
@@ -61,21 +55,21 @@ export default {
   },
   // kutsutaan ennen DOM:iin liittämistä
   beforeMount() {
-    this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi
+    this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
   },
   data() {
     return {
-      realizations: this.$route.params.realizations, // tietoja router-link:ltä
-      sortParam: "", // järjestämisparametri
-      reverseSort: false, // käänteinen järjestämisjärjestys,
-      searchName: "", // haku
+      realizations: this.$route.params.realizations, // opintojaksot router-link:ltä
+      sortParam: "", // järjestämisparametri (harjoitustyössä vain ilmoittautumisen päättymispäivä)
+      searchInput: "", // haku
+      reverseSort: false, // käänteinen järjestämisjärjestys
       hidePastEnrollments: false // piilota menneet
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
   computed: {
     filteredList() {
-      let filteredList = this.filter(this.realizations, this.searchName); // suodatus hakukentän mukaan
+      let filteredList = this.filter(this.realizations, this.searchInput); // suodatus hakukentän mukaan
       filteredList = this.order(filteredList, this.sortParam, this.reverseSort); // järjestäminen (nouseva/laskeva)
       filteredList = this.filterPastEnrollments(
         filteredList,
@@ -89,7 +83,7 @@ export default {
       console.log("filter...", list, value);
       return list.filter(realization => {
         return realization.vLocalizedNameFi
-          .toLowerCase()
+          .toLowerCase() // kaikki kirjaimet pieniksi vertailua varten
           .includes(value.toLowerCase());
       });
     },
@@ -98,8 +92,8 @@ export default {
       if (param) {
         return list.sort((a, b) => {
           return order
-            ? a[param].localeCompare(b[param]) // sort
-            : -a[param].localeCompare(b[param]); // reverse sort
+            ? a[param].localeCompare(b[param]) // sort (vertailu palauttaa 1)
+            : -a[param].localeCompare(b[param]); // reverse sort (vertailu palauttaa -1)
         });
       } else {
         return list;
