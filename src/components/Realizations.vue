@@ -12,31 +12,23 @@ methods: findBy, orderBy, sort
       <input type="text" v-model="searchName" placeholder="etsi opintojaksoa nimellä..." />
       <div
         class="btn"
-        v-if="reverseSort"
         v-on:click="
           changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
-      >Järjestys: Ilmoittautumisen päättyminen (seuraavaksi päättyvät ensin)</div>
-      <div
-        class="btn"
-        v-else
-        v-on:click="
-          changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
-          reverseSort = !reverseSort;
-        "
-      >Järjestys: Ilmoittautumisen päättyminen (viimeiseksi päättyvät ensin)</div>
+      >
+        {{
+        reverseSort
+        ? "Järjestys: Seuraavaksi päättyvät ensin"
+        : "Järjestys: Viimeiseksi päättyvät ensin"
+        }}
+      </div>
 
-      <div
-        v-if="hidePastEnrollments"
-        class="btn"
-        v-on:click="hidePastEnrollments = !hidePastEnrollments"
-      >Näytä kaikki</div>
-      <div
-        v-else
-        class="btn"
-        v-on:click="hidePastEnrollments = !hidePastEnrollments"
-      >Piilota ne, joissa ilmoittautuminen umpeutunut</div>
+      <div class="btn" v-on:click="hidePastEnrollments = !hidePastEnrollments">
+        {{
+        hidePastEnrollments ? "Näytä: Piilota umpeutuneet" : "Näytä: Kaikki"
+        }}
+      </div>
     </div>
 
     <h3 v-if="hidePastEnrollments">Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
@@ -78,6 +70,8 @@ export default {
       reverseSort: false, // käänteinen järjestämisjärjestys,
       searchName: "", // haku
       hidePastEnrollments: false // piilota menneet
+      //hideBtnTxt = ,
+      //sortBtnTxt =
     };
   },
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
