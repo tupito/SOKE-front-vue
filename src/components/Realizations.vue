@@ -7,7 +7,8 @@ methods: findBy, orderBy, sort
 <template>
   <div>
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
-    <div>
+    <div class="searchConditions">
+      <h3>Suodata/järjestä hakutuloksia</h3>
       <input type="text" v-model="searchName" placeholder="etsi opintojaksoa nimellä..." />
       <div
         class="btn"
@@ -16,7 +17,7 @@ methods: findBy, orderBy, sort
           changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
-      >Järjestä: Ilmoittautuminen (vanhat ensin)</div>
+      >Järjestys: Ilmoittautumisen päättyminen (seuraavaksi päättyvät ensin)</div>
       <div
         class="btn"
         v-else
@@ -24,7 +25,7 @@ methods: findBy, orderBy, sort
           changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
           reverseSort = !reverseSort;
         "
-      >Järjestä: Ilmoittautuminen (uudet ensin)</div>
+      >Järjestys: Ilmoittautumisen päättyminen (viimeiseksi päättyvät ensin)</div>
 
       <div
         v-if="hidePastEnrollments"
@@ -156,5 +157,11 @@ export default {
   display: inline-block;
   padding: 1px;
   cursor: pointer;
+}
+
+.searchConditions {
+  border: 1px solid black;
+  width: 80%;
+  margin: auto;
 }
 </style>
