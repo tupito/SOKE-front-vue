@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div
+    v-if="!realizationItem.courseUnit.localizedName.valueFi"
+    class="error"
+  >Tietojen hakeminen ei onnistunut...</div>
+  <div v-else>
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
       <p>Koodi: {{ realizationItem.code }}</p>
@@ -17,12 +21,39 @@
 </template>
 
 <script>
+import { RepositoryFactory } from "@/repositories/RepositoryFactory";
+
+const RealizationItemRepository = RepositoryFactory.get("realizationItem");
+
 export default {
   name: "RealizationItem-component",
+
   data() {
     return {
-      realizationItem: this.$route.params.realization
+      realizationItem: {}
     };
+  },
+
+  created() {
+    let rParams = this.$route.params.realization;
+    if (rParams) {
+      // opintojaksojen data ensisijaisesti router-link:ltä (= ei erillistä API-kutsua)
+      this.realizationItem = rParams;
+      //this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+    } else {
+      // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä
+      this.fetch();
+    }
+  },
+
+  methods: {
+    async fetch() {
+      console.log("API CALL TRIGGERED");
+      const realizationItemId = this.$route.params.id; // haetaan id-tieto urlsta
+      const { data } = await RealizationItemRepository.get(realizationItemId);
+      this.realizationItem = data;
+      console.log(data);
+    }
   }
 };
 </script>

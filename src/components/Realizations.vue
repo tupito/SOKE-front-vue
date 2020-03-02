@@ -49,6 +49,7 @@ import lib from "@/lib/customFunctions.js"; // omat funktiot
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
 
 const RealizationsRepository = RepositoryFactory.get("realizations"); // apin kautta haettava data
+console.log(RealizationsRepository);
 
 export default {
   name: "Realizations-component",
