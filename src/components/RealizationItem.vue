@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="!realizationItem.courseUnit.localizedName.valueFi"
-    class="error"
-  >Tietojen hakeminen ei onnistunut...</div>
-  <div v-else>
+  <div v-if="realizationItem">
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
       <p>Koodi: {{ realizationItem.code }}</p>
@@ -18,6 +14,7 @@
       <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
   </div>
+  <div v-else class="error">Tietojen hakeminen ei onnistunut...</div>
 </template>
 
 <script>
@@ -30,7 +27,7 @@ export default {
 
   data() {
     return {
-      realizationItem: {}
+      realizationItem: null
     };
   },
 
