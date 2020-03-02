@@ -6,7 +6,9 @@
       <router-link to="/vueinfo">Vue info</router-link>|
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
     <Footer />
   </div>
 </template>
@@ -38,5 +40,18 @@ export default { components: { Footer, Header } };
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+/* transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>
