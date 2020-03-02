@@ -1,7 +1,10 @@
 <template>
   <div>
     <h2>Koulutusalat (Opintotarjonta)</h2>
-    <div v-if="!educationalFields" class="error">Tietojen hakeminen ei onnistunut...</div>
+    <div v-if="!educationalFields" class="error">
+      Tietojen hakeminen ei onnistunut... Mikäli käynnistit sovelluksen
+      ensimmäistä kertaa, niin odota hetki. Herokun backend on vasta heräämässä.
+    </div>
     <div v-else v-for="item in educationalFields" :key="item.id">
       <router-link
         :to="{

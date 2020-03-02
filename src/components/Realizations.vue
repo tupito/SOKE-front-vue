@@ -25,21 +25,28 @@
         }}
       </div>
     </div>
+    <transition name="fade" mode="out-in">
+      <h3
+        key="notAll"
+        v-if="hidePastEnrollments"
+      >Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
+      <h3 key="all" v-else>Kaikki opintojaksot</h3>
+    </transition>
 
-    <h3 v-if="hidePastEnrollments">Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
-    <h3 v-else>Kaikki opintojaksot</h3>
-    <div v-for="item in filteredList" :key="item.id">
-      <router-link
-        :to="{
-          name: 'RealizationItem',
-          params: { id: item.id, realization: item }
-        }"
-      >
-        {{ item.vLocalizedNameFi }}
-        ( {{ item.vStartDate }} - {{ item.vEndDate }} ) ( ilmoittautuminen
-        päättyy: {{ item.vEnrollmentEnd }})
-      </router-link>
-    </div>
+    <transition-group name="list" tag="div">
+      <div v-for="item in filteredList" :key="item.id">
+        <router-link
+          :to="{
+            name: 'RealizationItem',
+            params: { id: item.id, realization: item }
+          }"
+        >
+          {{ item.vLocalizedNameFi }}
+          ( {{ item.vStartDate }} - {{ item.vEndDate }} ) ( ilmoittautuminen
+          päättyy: {{ item.vEnrollmentEnd }})
+        </router-link>
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -166,5 +173,36 @@ export default {
   border: 1px solid black;
   width: 80%;
   margin: auto;
+}
+
+/* transition name="fade"*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+ {
+  opacity: 0;
+}
+
+/* transition-group name="list" */
+/* sort list */
+
+.list-move {
+  transition: transform 1s;
+}
+
+/* filter list */
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
