@@ -9,13 +9,13 @@ import RealizationItem from "../views/RealizationItem.vue"; // yksittäinen opin
 Vue.use(VueRouter);
 
 const routes = [
-  // yksittäisen opinto jakson tiedot
+  // opintojakson tiedot
   {
     path: "/realizations/:educationalFieldId/:realizationItemId",
     name: "RealizationItem",
     component: RealizationItem
   },
-  // koulutusalan toteutusvalintasivu
+  // koulutusalan opintojaksot valinta
   {
     path: "/realizations/:educationalFieldId",
     name: "Realizations",

@@ -5,17 +5,17 @@
         name: 'Realizations',
         params: { educationalFieldId: this.educationalFieldId }
       }"
-    >Paluu</router-link>
-    <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
+    >Opintojaksoihin</router-link>
+    <h2>{{ realizationItem.vLocalizedNameFi }}</h2>
     <div>
       <p>Koodi: {{ realizationItem.code }}</p>
       <p>
-        Aika: {{ realizationItem.startDate }} -
-        {{ realizationItem.endDate }}
+        Aika: {{ realizationItem.vStartDate }} -
+        {{ realizationItem.vEndDate }}
       </p>
       <p>
-        Ilmoittautumisaika: {{ realizationItem.enrollmentStart }} -
-        {{ realizationItem.enrollmentEnd }}
+        Ilmoittautumisaika: {{ realizationItem.vEnrollmentStart }} -
+        {{ realizationItem.vEnrollmentEnd }}
       </p>
       <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
@@ -25,6 +25,7 @@
 
 <script>
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
+import lib from "@/lib/customFunctions.js"; // omat funktiot
 
 const RealizationItemRepository = RepositoryFactory.get("realizationItem");
 
@@ -62,6 +63,22 @@ export default {
       const { data } = await RealizationItemRepository.get(realizationItemId);
       this.realizationItem = data;
       console.log("fetch", data);
+      this.addViewVariables();
+    },
+    addViewVariables() {
+      this.realizationItem.vLocalizedNameFi = this.realizationItem.courseUnit.localizedName.valueFi;
+      this.realizationItem.vStartDate = lib.toFinDate(
+        this.realizationItem.startDate
+      );
+      this.realizationItem.vEndDate = lib.toFinDate(
+        this.realizationItem.endDate
+      );
+      this.realizationItem.vEnrollmentStart = lib.toFinDate(
+        this.realizationItem.enrollmentStart
+      );
+      this.realizationItem.vEnrollmentEnd = lib.toFinDate(
+        this.realizationItem.enrollmentEnd
+      );
     }
   }
 };
