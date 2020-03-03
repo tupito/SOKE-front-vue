@@ -4,33 +4,35 @@
     <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
     <div class="searchConditions">
       <h3>Suodata/järjestä hakutuloksia</h3>
-      <input type="text" v-model="searchInput" placeholder="etsi opintojaksoa nimellä..." />
-      <div
-        class="btn"
-        v-on:click="
-          changeSortingParam('enrollmentEnd'); // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä
-          reverseSort = !reverseSort;
-        "
-      >
+      <input type="text" v-model="searchInput" placeholder="Etsi nimellä..." />
+      <hr />
+      <div class="btn" v-on:click="changeSortingParam('startDate')">
+        <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
         {{
         reverseSort
-        ? "Järjestys: Seuraavaksi päättyvät ensin"
-        : "Järjestys: Viimeiseksi päättyvät ensin"
+        ? "Järjestä: Viimeiseksi alkavat ensin"
+        : "Järjestä: Alkamisjärjestykseen"
         }}
       </div>
 
-      <div class="btn" v-on:click="hidePastEnrollments = !hidePastEnrollments">
+      <div class="btn" v-on:click="changeSortingParam('vLocalizedNameFi')">
+        <!-- // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
         {{
-        hidePastEnrollments ? "Näytä: Piilota umpeutuneet" : "Näytä: Kaikki"
+        reverseSort
+        ? "Järjestä: Käänteiseen aakkosjärjestykseen"
+        : "Järjestä: Aakkosjärjestykseen"
         }}
       </div>
+      <hr />
+
+      <div
+        class="btn"
+        v-on:click="hidePastEnrollments = !hidePastEnrollments"
+      >{{ hidePastEnrollments ? "Näytä kaikki" : "Piilota umpeutuneet" }}</div>
     </div>
     <transition name="fade" mode="out-in">
-      <h3
-        key="notAll"
-        v-if="hidePastEnrollments"
-      >Opintojaksot, joiden ilmoittautuminen ei ole päättynyt</h3>
-      <h3 key="all" v-else>Kaikki opintojaksot</h3>
+      <h3 key="notAll" v-if="hidePastEnrollments">Opintojaksot - ilmoittautuminen avoinna</h3>
+      <h3 key="all" v-else>Opintojaksot - kaikki</h3>
     </transition>
 
     <transition-group name="list" tag="div">
@@ -64,7 +66,7 @@ export default {
 
   data() {
     return {
-      realizations: [], // opintojaksot, haetaan joko routerlinkiltä tai erillisellä API-kutsulla
+      realizations: [], // opintojaksot, haetaan ensisijaisesti routerlinkiltä ja toissijaisesti erillisellä API-kutsulla
       sortParam: "", // järjestämisparametri (harjoitustyössä vain ilmoittautumisen päättymispäivä)
       searchInput: "", // haku
       reverseSort: false, // käänteinen järjestämisjärjestys
@@ -110,8 +112,8 @@ export default {
       if (param) {
         return list.sort((a, b) => {
           return order
-            ? a[param].localeCompare(b[param]) // sort (vertailu palauttaa 1)
-            : -a[param].localeCompare(b[param]); // reverse sort (vertailu palauttaa -1)
+            ? -a[param].localeCompare(b[param]) // sort (vertailu palauttaa 1)
+            : a[param].localeCompare(b[param]); // reverse sort (vertailu palauttaa -1)
         });
       } else {
         return list;
