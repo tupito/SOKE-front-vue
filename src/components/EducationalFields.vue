@@ -12,7 +12,7 @@
           params: {
             // Välitetään router-linkillä data, esim. koulutusalan tarjolla olevat toteutukset
             educationalFieldId: item.educationalFields[0].id,
-            name: item.educationalFields[0].localizedNameFi,
+            educationalFieldName: item.educationalFields[0].localizedNameFi,
             realizations: item.realizations
           }
         }"

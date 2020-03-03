@@ -1,28 +1,49 @@
 <template>
   <div v-if="realizations.length < 1" class="error">Tietojen hakeminen ei onnistunut...</div>
   <div v-else>
-    <h2>Koulutusalan {{ $route.params.name }} avoimen AMK:n opintojaksot</h2>
+    <h2>
+      Koulutusalan {{ $route.params.educationalFieldName }} avoimen AMK:n
+      opintojaksot
+    </h2>
     <div class="searchConditions">
       <h3>Suodata/järjestä hakutuloksia</h3>
       <input type="text" v-model="searchInput" placeholder="Etsi nimellä..." />
       <hr />
-      <div class="btn" v-on:click="changeSortingParam('startDate')">
-        <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
-        {{
-        reverseSort
-        ? "Järjestä: Viimeiseksi alkavat ensin"
-        : "Järjestä: Alkamisjärjestykseen"
-        }}
-      </div>
+      <transition name="fade" mode="out-in">
+        <div
+          v-if="!timeSort"
+          class="btn"
+          v-on:click="
+            changeSortingParam('startDate');
+            timeSort = !timeSort;
+          "
+          key="time"
+        >
+          <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
+          {{
+          reverseSort
+          ? "Järjestä: Viimeiseksi alkavat ensin"
+          : "Järjestä: Alkamisjärjestykseen"
+          }}
+        </div>
 
-      <div class="btn" v-on:click="changeSortingParam('vLocalizedNameFi')">
-        <!-- // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
-        {{
-        reverseSort
-        ? "Järjestä: Käänteiseen aakkosjärjestykseen"
-        : "Järjestä: Aakkosjärjestykseen"
-        }}
-      </div>
+        <div
+          v-else
+          class="btn"
+          v-on:click="
+            changeSortingParam('vLocalizedNameFi');
+            timeSort = !timeSort;
+          "
+          key="name"
+        >
+          <!-- // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
+          {{
+          reverseSort
+          ? "Järjestä: Käänteiseen aakkosjärjestykseen"
+          : "Järjestä: Aakkosjärjestykseen"
+          }}
+        </div>
+      </transition>
       <hr />
 
       <div
@@ -69,7 +90,8 @@ export default {
       realizations: [], // opintojaksot, haetaan ensisijaisesti routerlinkiltä ja toissijaisesti erillisellä API-kutsulla
       sortParam: "", // järjestämisparametri (harjoitustyössä vain ilmoittautumisen päättymispäivä)
       searchInput: "", // haku
-      reverseSort: false, // käänteinen järjestämisjärjestys
+      timeSort: true,
+      reverseSort: false, // käänteinen järjestämisjärjestys, tehty valmiiksi, ei käytetä tässä työssä
       hidePastEnrollments: false // piilota menneet
     };
   },
@@ -84,6 +106,7 @@ export default {
       // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä tai painaa selaimen back-nappulaa opintojakson tiedoissa
       this.fetch();
     }
+    this.changeSortingParam("startDate");
   },
 
   // Computed properties are for transforming data for the presentation layer, not to alter or change data!
@@ -153,6 +176,7 @@ export default {
       const educationalFieldId = this.$route.params.educationalFieldId; // haetaan id-tieto urlsta
       const { data } = await RealizationsRepository.get(educationalFieldId);
       this.realizations = data[0].realizations;
+      console.log("fetch", this.realizations);
       this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
     }
   }
