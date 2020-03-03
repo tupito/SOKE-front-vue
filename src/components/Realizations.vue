@@ -38,7 +38,7 @@
         <router-link
           :to="{
             name: 'RealizationItem',
-            params: { id: item.id, realization: item }
+            params: { realizationItemId: item.id, realization: item }
           }"
         >
           {{ item.vLocalizedNameFi }}
@@ -148,7 +148,7 @@ export default {
     },
     async fetch() {
       console.log("API CALL TRIGGERED");
-      const educationalFieldId = this.$route.params.id; // haetaan id-tieto urlsta
+      const educationalFieldId = this.$route.params.educationalFieldId; // haetaan id-tieto urlsta
       const { data } = await RealizationsRepository.get(educationalFieldId);
       this.realizations = data[0].realizations;
       this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon

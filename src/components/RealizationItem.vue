@@ -3,7 +3,7 @@
     <router-link
       :to="{
         name: 'Realizations',
-        params: { id: educationalFieldId }
+        params: { educationalFieldId: this.educationalFieldId }
       }"
     >Paluu</router-link>
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
@@ -33,12 +33,15 @@ export default {
 
   data() {
     return {
-      educationalFieldId: 0,
+      educationalFieldId: null,
       realizationItem: null
     };
   },
 
   created() {
+    console.log(this.$route.params);
+    console.log(this.educationalFieldId);
+
     let rParams = this.$route.params.realization;
     if (rParams) {
       // opintojaksojen data ensisijaisesti router-link:ltä (= ei erillistä API-kutsua)
@@ -48,16 +51,17 @@ export default {
       // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä
       this.fetch();
     }
-    this.educationalFieldId = this.realizationItem.educationalFieldId;
+    this.educationalFieldId = this.$route.params.educationalFieldId;
+    // this.educationalFieldId = this.realizationItem.educationalFieldId;
   },
 
   methods: {
     async fetch() {
       console.log("API CALL TRIGGERED");
-      const realizationItemId = this.$route.params.id; // haetaan id-tieto urlsta
+      const realizationItemId = this.$route.params.realizationItemId; // haetaan id-tieto urlsta
       const { data } = await RealizationItemRepository.get(realizationItemId);
       this.realizationItem = data;
-      console.log(data);
+      console.log("fetch", data);
     }
   }
 };

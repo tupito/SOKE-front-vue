@@ -11,7 +11,7 @@
           name: 'Realizations',
           params: {
             // Välitetään router-linkillä data, esim. koulutusalan tarjolla olevat toteutukset
-            id: item.educationalFields[0].id,
+            educationalFieldId: item.educationalFields[0].id,
             name: item.educationalFields[0].localizedNameFi,
             realizations: item.realizations
           }

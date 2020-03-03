@@ -11,13 +11,13 @@ Vue.use(VueRouter);
 const routes = [
   // yksittäisen opinto jakson tiedot
   {
-    path: "/realization-item/:id",
+    path: "/realizations/:educationalFieldId/:realizationItemId",
     name: "RealizationItem",
     component: RealizationItem
   },
   // koulutusalan toteutusvalintasivu
   {
-    path: "/realizations/:id",
+    path: "/realizations/:educationalFieldId",
     name: "Realizations",
     component: Realizations
   },
