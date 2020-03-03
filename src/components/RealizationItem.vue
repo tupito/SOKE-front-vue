@@ -1,5 +1,11 @@
 <template>
   <div v-if="realizationItem">
+    <router-link
+      :to="{
+        name: 'Realizations',
+        params: { id: educationalFieldId }
+      }"
+    >Paluu</router-link>
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
       <p>Koodi: {{ realizationItem.code }}</p>
@@ -27,6 +33,7 @@ export default {
 
   data() {
     return {
+      educationalFieldId: 0,
       realizationItem: null
     };
   },
@@ -41,6 +48,7 @@ export default {
       // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä
       this.fetch();
     }
+    this.educationalFieldId = this.realizationItem.educationalFieldId;
   },
 
   methods: {
