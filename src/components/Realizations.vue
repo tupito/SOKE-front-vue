@@ -173,7 +173,6 @@ export default {
       this.sortParam = param;
     },
     async fetch() {
-      console.log("API CALL TRIGGERED");
       const educationalFieldId = this.$route.params.educationalFieldId; // haetaan id-tieto urlsta
       const { data } = await RealizationsRepository.get(educationalFieldId);
       this.realizations = data[0].realizations;

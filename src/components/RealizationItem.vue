@@ -59,7 +59,6 @@ export default {
 
   methods: {
     async fetch() {
-      console.log("API CALL TRIGGERED");
       const realizationItemId = this.$route.params.realizationItemId; // haetaan toteutuksen id-tieto urlsta
       const { data } = await RealizationItemRepository.get(realizationItemId); // toteutuksen tiedot apista
       this.realizationItem = data;
