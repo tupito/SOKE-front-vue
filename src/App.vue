@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <TheHeader />
-    <div id="nav">
+    <header>
+      <TheHeader />
+    </header>
+    <nav>
       <router-link to="/">Alkuun</router-link>
-    </div>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
-    <TheFooter />
+    </nav>
+    <section>
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
+    </section>
+    <footer>
+      <TheFooter />
+    </footer>
   </div>
 </template>
 
@@ -27,16 +33,16 @@ export default { components: { TheFooter, TheHeader } };
   color: #2c3e50;
 }
 
-#nav {
+nav {
   padding: 30px;
 }
 
-#nav a {
+nav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
+nav a.router-link-exact-active {
   color: #42b983;
 }
 

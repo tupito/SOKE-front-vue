@@ -21,12 +21,8 @@
           "
           key="time"
         >
+          Järjestä: Alkamisjärjestykseen
           <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
-          {{
-          reverseSort
-          ? "Järjestä: Viimeiseksi alkavat ensin"
-          : "Järjestä: Alkamisjärjestykseen"
-          }}
         </div>
 
         <div
@@ -37,14 +33,7 @@
             timeSort = !timeSort;
           "
           key="name"
-        >
-          <!-- // järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
-          {{
-          reverseSort
-          ? "Järjestä: Käänteiseen aakkosjärjestykseen"
-          : "Järjestä: Aakkosjärjestykseen"
-          }}
-        </div>
+        >Järjestä: Aakkosjärjestykseen</div>
       </transition>
       <hr />
 
@@ -53,6 +42,7 @@
         v-on:click="hidePastEnrollments = !hidePastEnrollments"
       >{{ hidePastEnrollments ? "Näytä kaikki" : "Piilota umpeutuneet" }}</div>
     </div>
+
     <transition name="fade" mode="out-in">
       <h3 key="notAll" v-if="hidePastEnrollments">Opintojaksot - ilmoittautuminen avoinna</h3>
       <h3 key="all" v-else>Opintojaksot - kaikki</h3>
