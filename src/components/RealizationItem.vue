@@ -1,5 +1,8 @@
 <template>
-  <div v-if="realizationItem">
+  <!-- jos datan haku ei onnistunut -->
+  <ApiError v-if="!realizationItem"></ApiError>
+  <!-- data haettu -->
+  <div v-else>
     <router-link
       :to="{
         name: 'Realizations',
@@ -20,10 +23,11 @@
       <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
   </div>
-  <div v-else class="error">Tietojen hakeminen ei onnistunut...</div>
 </template>
 
 <script>
+// @ is an alias to /src
+import ApiError from "@/components/ApiError.vue";
 import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
 
@@ -31,6 +35,9 @@ const RealizationItemRepository = RepositoryFactory.get("realizationItem"); // a
 
 export default {
   name: "RealizationItem-component",
+  components: {
+    ApiError
+  },
   mixins: [dateMixin],
   data() {
     return {

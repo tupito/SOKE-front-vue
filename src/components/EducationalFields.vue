@@ -1,10 +1,9 @@
 <template>
   <div>
     <h2>Koulutusalat (Opintotarjonta)</h2>
-    <div v-if="!educationalFields" class="error">
-      Tietojen hakeminen ei onnistunut... Mikäli käynnistit sovelluksen
-      ensimmäistä kertaa, niin odota hetki. Herokun backend on vasta heräämässä.
-    </div>
+    <!-- jos datan haku ei onnistunut -->
+    <ApiError v-if="!educationalFields"></ApiError>
+    <!-- data haettu -->
     <div v-else v-for="item in educationalFields" :key="item.id">
       <router-link
         :to="{
@@ -23,11 +22,16 @@
 </template>
 
 <script>
+// @ is an alias to /src
+import ApiError from "@/components/ApiError.vue";
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
 const EducationalFieldsRepository = RepositoryFactory.get("educationalFields"); // apin kautta haettava data
 
 export default {
   name: "EducationalFields-component",
+  components: {
+    ApiError
+  },
   data: function() {
     return {
       educationalFields: null, // haetaan apista
@@ -46,8 +50,4 @@ export default {
 };
 </script>
 
-<style>
-.error {
-  background-color: lightcoral;
-}
-</style>
+<style></style>
