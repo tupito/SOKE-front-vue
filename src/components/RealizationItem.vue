@@ -9,26 +9,16 @@
         params: { educationalFieldId: this.educationalFieldId }
       }"
     >Takaisin koulutusalan opintojaksoihin</router-link>
-    <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
-    <div>
-      <p>Koodi: {{ realizationItem.code }}</p>
-      <p>
-        Aika: {{ toFinDate(realizationItem.startDate) }} -
-        {{ toFinDate(realizationItem.endDate) }}
-      </p>
-      <p>
-        Ilmoittautumisaika: {{ toFinDate(realizationItem.enrollmentStart) }} -
-        {{ toFinDate(realizationItem.enrollmentEnd) }}
-      </p>
-      <p>Opintopisteet: {{ realizationItem.credits }}</p>
-    </div>
+
+    <!-- Toteutuksen tiedot -->
+    <RealizationItemData v-bind:realization="realizationItem"></RealizationItemData>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import ApiError from "@/components/ApiError.vue";
-import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
+import RealizationItemData from "@/components/RealizationItemData.vue";
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
 
 const RealizationItemRepository = RepositoryFactory.get("realizationItem"); // apin kautta haettava data
@@ -36,9 +26,9 @@ const RealizationItemRepository = RepositoryFactory.get("realizationItem"); // a
 export default {
   name: "RealizationItem-component",
   components: {
-    ApiError
+    ApiError,
+    RealizationItemData
   },
-  mixins: [dateMixin],
   data() {
     return {
       educationalFieldId: null, // routerlinkille (paluu) tieto koulutusalaid:stä
