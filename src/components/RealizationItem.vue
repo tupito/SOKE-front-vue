@@ -5,17 +5,17 @@
         name: 'Realizations',
         params: { educationalFieldId: this.educationalFieldId }
       }"
-    >Opintojaksoihin</router-link>
-    <h2>{{ realizationItem.vLocalizedNameFi }}</h2>
+    >Takaisin koulutusalan opintojaksoihin</router-link>
+    <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
     <div>
       <p>Koodi: {{ realizationItem.code }}</p>
       <p>
-        Aika: {{ realizationItem.vStartDate }} -
-        {{ realizationItem.vEndDate }}
+        Aika: {{ toFinDate(realizationItem.startDate) }} -
+        {{ toFinDate(realizationItem.endDate) }}
       </p>
       <p>
-        Ilmoittautumisaika: {{ realizationItem.vEnrollmentStart }} -
-        {{ realizationItem.vEnrollmentEnd }}
+        Ilmoittautumisaika: {{ toFinDate(realizationItem.enrollmentStart) }} -
+        {{ toFinDate(realizationItem.enrollmentEnd) }}
       </p>
       <p>Opintopisteet: {{ realizationItem.credits }}</p>
     </div>
@@ -24,61 +24,38 @@
 </template>
 
 <script>
+import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
-import lib from "@/lib/customFunctions.js"; // omat funktiot
 
-const RealizationItemRepository = RepositoryFactory.get("realizationItem");
+const RealizationItemRepository = RepositoryFactory.get("realizationItem"); // apin kautta haettava data
 
 export default {
   name: "RealizationItem-component",
-
+  mixins: [dateMixin],
   data() {
     return {
-      educationalFieldId: null,
-      realizationItem: null
+      educationalFieldId: null, // routerlinkille (paluu) tieto koulutusalaid:stä
+      realizationItem: null // näytettävä toteutus
     };
   },
 
   created() {
-    console.log(this.$route.params);
-    console.log(this.educationalFieldId);
-
-    let rParams = this.$route.params.realization;
-    if (rParams) {
-      // opintojaksojen data ensisijaisesti router-link:ltä (= ei erillistä API-kutsua)
-      this.realizationItem = rParams;
-      //this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+    let routerLinkRealizationItem = this.$route.params.realization;
+    if (routerLinkRealizationItem) {
+      // käyttäjä on avannut sivun routerlinkin kautta
+      this.realizationItem = routerLinkRealizationItem; // opintojaksojen data ensisijaisesti router-link:ltä
     } else {
-      // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä
-      this.fetch();
+      this.fetch(); // data apista, esim. jos käyttäjä tulee suoralla url:lla
     }
     this.educationalFieldId = this.$route.params.educationalFieldId;
-    // this.educationalFieldId = this.realizationItem.educationalFieldId;
   },
 
   methods: {
     async fetch() {
       console.log("API CALL TRIGGERED");
-      const realizationItemId = this.$route.params.realizationItemId; // haetaan id-tieto urlsta
-      const { data } = await RealizationItemRepository.get(realizationItemId);
+      const realizationItemId = this.$route.params.realizationItemId; // haetaan toteutuksen id-tieto urlsta
+      const { data } = await RealizationItemRepository.get(realizationItemId); // toteutuksen tiedot apista
       this.realizationItem = data;
-      console.log("fetch", data);
-      this.addViewVariables();
-    },
-    addViewVariables() {
-      this.realizationItem.vLocalizedNameFi = this.realizationItem.courseUnit.localizedName.valueFi;
-      this.realizationItem.vStartDate = lib.toFinDate(
-        this.realizationItem.startDate
-      );
-      this.realizationItem.vEndDate = lib.toFinDate(
-        this.realizationItem.endDate
-      );
-      this.realizationItem.vEnrollmentStart = lib.toFinDate(
-        this.realizationItem.enrollmentStart
-      );
-      this.realizationItem.vEnrollmentEnd = lib.toFinDate(
-        this.realizationItem.enrollmentEnd
-      );
     }
   }
 };

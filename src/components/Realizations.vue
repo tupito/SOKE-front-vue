@@ -65,8 +65,8 @@
           }"
         >
           {{ item.vLocalizedNameFi }}
-          ( {{ item.vStartDate }} - {{ item.vEndDate }} ) ( ilmoittautuminen
-          päättyy: {{ item.vEnrollmentEnd }})
+          ( {{ toFinDate(item.startDate) }} - {{ toFinDate(item.endDate) }} ) (
+          ilmoittautuminen päättyy: {{ toFinDate(item.enrollmentEnd) }})
         </router-link>
       </div>
     </transition-group>
@@ -74,16 +74,14 @@
 </template>
 
 <script>
-import { exampleMixin } from "@/mixins/exampleMixin.js"; // vain mallina
-import lib from "@/lib/customFunctions.js"; // omat funktiot
+import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
 
 const RealizationsRepository = RepositoryFactory.get("realizations"); // apin kautta haettava data
-console.log(RealizationsRepository);
 
 export default {
   name: "Realizations-component",
-  mixins: [exampleMixin],
+  mixins: [dateMixin],
 
   data() {
     return {
@@ -101,7 +99,7 @@ export default {
     if (rParams) {
       // opintojaksojen data ensisijaisesti router-link:ltä (= ei erillistä API-kutsua)
       this.realizations = rParams;
-      this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+      this.simplifyNestedVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
     } else {
       // tehdään API-kutsu, esim. jos käyttäjä tulee suoralla linkillä tai painaa selaimen back-nappulaa opintojakson tiedoissa
       this.fetch();
@@ -157,14 +155,10 @@ export default {
       }
     },
 
-    addViewVariables() {
-      // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+    simplifyNestedVariables() {
+      // yksinkertaistetaan dataa järjestämisen helpottamiseksi
       this.realizations.forEach(elem => {
         elem.vLocalizedNameFi = elem.courseUnit.localizedName.valueFi; // nested-muuttuja, helpommin vertailtavaan muuttujaan
-        elem.vStartDate = lib.toFinDate(elem.startDate); // näytettävä pvm Suomi-muotoon
-        elem.vEndDate = lib.toFinDate(elem.endDate); // näytettävä pvm Suomi-muotoon
-        elem.vEnrollmentStart = lib.toFinDate(elem.enrollmentStart); // näytettävä pvm Suomi-muotoon
-        elem.vEnrollmentEnd = lib.toFinDate(elem.enrollmentEnd); // näytettävä pvm Suomi-muotoon
       });
     },
     changeSortingParam(param) {
@@ -176,8 +170,7 @@ export default {
       const educationalFieldId = this.$route.params.educationalFieldId; // haetaan id-tieto urlsta
       const { data } = await RealizationsRepository.get(educationalFieldId);
       this.realizations = data[0].realizations;
-      console.log("fetch", this.realizations);
-      this.addViewVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
+      this.simplifyNestedVariables(); // yksinkertaistetaan dataa järjestämisen helpottamiseksi ja päivämäärät Suomi-muotoon
     }
   }
 };
