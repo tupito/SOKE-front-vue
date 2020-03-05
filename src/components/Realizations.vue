@@ -60,16 +60,7 @@
 
     <transition-group name="list" tag="div">
       <div v-for="item in filteredList" :key="item.id">
-        <router-link
-          :to="{
-            name: 'RealizationItem',
-            params: { realizationItemId: item.id, realization: item }
-          }"
-        >
-          {{ item.vLocalizedNameFi }}
-          ( {{ toFinDate(item.startDate) }} - {{ toFinDate(item.endDate) }} ) (
-          ilmoittautuminen päättyy: {{ toFinDate(item.enrollmentEnd) }})
-        </router-link>
+        <RealizationsData :realization="item"></RealizationsData>
       </div>
     </transition-group>
   </div>
@@ -78,17 +69,17 @@
 <script>
 // @ is an alias to /src
 import ApiError from "@/components/ApiError.vue";
-import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
 import { RepositoryFactory } from "@/repositories/RepositoryFactory";
+import RealizationsData from "@/components/RealizationsData.vue";
 
 const RealizationsRepository = RepositoryFactory.get("realizations"); // apin kautta haettava data
 
 export default {
   name: "Realizations-component",
   components: {
-    ApiError
+    ApiError,
+    RealizationsData
   },
-  mixins: [dateMixin],
 
   data() {
     return {
