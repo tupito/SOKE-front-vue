@@ -18,11 +18,11 @@
 import { dateMixin } from "@/mixins/dateMixin.js"; // päivämäärän apufunktiot
 
 export default {
-  props: ["realization"],
+  props: ["realization"], // tuodaan toteutuksen tiedot
   mixins: [dateMixin],
   data: function() {
     return {
-      realizationItem: this.realization
+      realizationItem: this.realization // toteutuksen tiedot
     };
   }
 };

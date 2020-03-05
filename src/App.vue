@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header />
+    <TheHeader />
     <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/vueinfo">Vue info</router-link>|
@@ -9,15 +9,15 @@
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
-    <Footer />
+    <TheFooter />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Footer from "@/components/Footer.vue";
-import Header from "@/components/Header.vue";
-export default { components: { Footer, Header } };
+import TheFooter from "@/components/TheFooter.vue";
+import TheHeader from "@/components/TheHeader.vue";
+export default { components: { TheFooter, TheHeader } };
 </script>
 
 <style>

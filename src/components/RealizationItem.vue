@@ -3,6 +3,7 @@
   <ApiError v-if="!realizationItem"></ApiError>
   <!-- data haettu -->
   <div v-else>
+    <!-- koulutusalan id Realizations-routerlinkille -->
     <router-link
       :to="{
         name: 'Realizations',
@@ -11,7 +12,7 @@
     >Takaisin koulutusalan opintojaksoihin</router-link>
 
     <!-- Toteutuksen tiedot -->
-    <RealizationItemData v-bind:realization="realizationItem"></RealizationItemData>
+    <RealizationItemData :realization="realizationItem"></RealizationItemData>
   </div>
 </template>
 
