@@ -1,6 +1,5 @@
 import Vue from "vue";
-import VueRouter from "vue-router"; //malli, todo: siivoa
-import VueInfo from "../views/VueInfo.vue"; //malli, todo: siivoa
+import VueRouter from "vue-router";
 
 import EducationalFields from "../views/Home.vue"; // koulutusalat
 import Realizations from "../views/Realizations.vue"; // opintojaksot
@@ -27,21 +26,6 @@ const routes = [
     name: "EducationalFields",
     component: EducationalFields
     //component: () => import("../views/Koulutusalat.vue")
-  },
-  // malli, todo: siivoa pois
-  {
-    path: "/vueinfo",
-    name: "VueInfo",
-    component: VueInfo
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
   }
 ];
 
