@@ -2,9 +2,9 @@
   <div>
     <hr />
     <p>
-      Huom. sovelluksessa käytettävä data ei vastaa todellista dataa: Kyseessä
-      on vain hyvin pieni otos, jonka tietoja on muutettu tähän harjoitustyöhön
-      sopivaksi.
+      Huom. sovelluksessa käytettävä data ei vastaa todellista opintotarjontaa:
+      Kyseessä on vain hyvin pieni, datamallin suuntainen otos, jonka tietoja on
+      muutettu harjoitustyöhön sopivaksi.
     </p>
   </div>
 </template>
