@@ -34,7 +34,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width: 80%;
+  width: 90%;
   margin: auto;
   padding: 20px;
   border: 1px solid black;
