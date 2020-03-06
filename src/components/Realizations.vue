@@ -7,10 +7,11 @@
       Koulutusalan {{ $route.params.educationalFieldName }} avoimen AMK:n
       opintojaksot
     </h2>
-    <div class="searchConditions">
+    <div class="search-conditions-container">
       <h3>Suodata/järjestä hakutuloksia</h3>
-      <input type="text" v-model="searchInput" placeholder="Etsi nimellä..." />
-      <hr />
+      <label for="searchTxt">Etsi nimellä</label>
+      <input type="text" id="seachTxt" v-model="searchInput" placeholder="esim..." />
+      <br />
       <transition name="fade" mode="out-in">
         <div
           v-if="!timeSort"
@@ -21,7 +22,7 @@
           "
           key="time"
         >
-          Järjestä: Alkamisjärjestykseen
+          Alkamisjärjestykseen
           <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
         </div>
 
@@ -33,10 +34,8 @@
             timeSort = !timeSort;
           "
           key="name"
-        >Järjestä: Aakkosjärjestykseen</div>
+        >Aakkosjärjestykseen</div>
       </transition>
-      <hr />
-
       <div
         class="btn"
         v-on:click="hidePastEnrollments = !hidePastEnrollments"
@@ -164,21 +163,37 @@ export default {
 </script>
 
 <style>
-.btn {
-  border: 1px solid black;
-  width: 30%;
-  margin: 5px;
-  font-size: small;
-  background-color: lightblue;
-  display: inline-block;
-  padding: 1px;
-  cursor: pointer;
+div.search-conditions-container > h3 {
+  margin-top: 0px;
 }
 
-.searchConditions {
+input {
+  width: 70%;
+  padding: 5px 5px;
+  margin: 5px 5px;
+  box-sizing: border-box;
+}
+
+.btn {
+  background-color: white;
   border: 1px solid black;
-  width: 80%;
+  border-radius: 5px;
+  /* width: 50%; */
+  margin: 5px 10px;
+  padding: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 3px 2px;
+  display: inline-block;
+}
+
+.search-conditions-container {
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 90%;
   margin: auto;
+  padding: 10px;
 }
 
 /* transition name="fade"*/
