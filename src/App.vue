@@ -3,9 +3,7 @@
     <header>
       <TheHeader />
     </header>
-    <nav>
-      <router-link to="/">Alkuun</router-link>
-    </nav>
+    <nav></nav>
     <section>
       <transition name="fade" mode="out-in">
         <router-view />

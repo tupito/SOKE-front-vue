@@ -1,18 +1,23 @@
 <template>
-  <!-- jos datan haku ei onnistunut -->
-  <ApiError v-if="!realizationItem"></ApiError>
-  <!-- data haettu -->
-  <div v-else>
-    <!-- koulutusalan id Realizations-routerlinkille -->
+  <div>
+    <router-link to="/" tag="div" class="btn">Aloitussivulle</router-link>
     <router-link
       :to="{
         name: 'Realizations',
         params: { educationalFieldId: this.educationalFieldId }
       }"
+      tag="div"
+      class="btn"
     >Takaisin koulutusalan opintojaksoihin</router-link>
+    <!-- jos datan haku ei onnistunut -->
+    <ApiError v-if="!realizationItem"></ApiError>
+    <!-- data haettu -->
+    <div v-else>
+      <!-- koulutusalan id Realizations-routerlinkille -->
 
-    <!-- Toteutuksen tiedot -->
-    <RealizationItemData :realization="realizationItem"></RealizationItemData>
+      <!-- Toteutuksen tiedot -->
+      <RealizationItemData :realization="realizationItem"></RealizationItemData>
+    </div>
   </div>
 </template>
 

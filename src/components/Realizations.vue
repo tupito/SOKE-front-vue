@@ -1,57 +1,60 @@
 <template>
-  <!-- jos datan haku ei onnistunut -->
-  <ApiError v-if="realizations.length < 1" class="error"></ApiError>
-  <!-- data haettu -->
-  <div v-else>
-    <h2>
-      Koulutusalan {{ $route.params.educationalFieldName }} avoimen AMK:n
-      opintojaksot
-    </h2>
-    <div class="search-conditions-container">
-      <h3>Suodata/järjestä hakutuloksia</h3>
-      <label for="searchTxt">Etsi nimellä</label>
-      <input type="text" id="seachTxt" v-model="searchInput" placeholder="esim..." />
-      <br />
-      <transition name="fade" mode="out-in">
+  <div>
+    <router-link to="/" tag="div" class="btn">Aloitussivulle</router-link>
+    <!-- jos datan haku ei onnistunut -->
+    <ApiError v-if="realizations.length < 1" class="error"></ApiError>
+    <!-- data haettu -->
+    <div v-else>
+      <h2>
+        Koulutusalan {{ $route.params.educationalFieldName }} avoimen AMK:n
+        opintojaksot
+      </h2>
+      <div class="search-conditions-container">
+        <h3>Suodata/järjestä hakutuloksia</h3>
+        <label for="searchTxt">Etsi nimellä</label>
+        <input type="text" id="seachTxt" v-model="searchInput" placeholder="esim..." />
+        <br />
+        <transition name="fade" mode="out-in">
+          <div
+            v-if="!timeSort"
+            class="btn"
+            v-on:click="
+              changeSortingParam('startDate');
+              timeSort = !timeSort;
+            "
+            key="time"
+          >
+            Alkamisjärjestykseen
+            <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
+          </div>
+
+          <div
+            v-else
+            class="btn"
+            v-on:click="
+              changeSortingParam('vLocalizedNameFi');
+              timeSort = !timeSort;
+            "
+            key="name"
+          >Aakkosjärjestykseen</div>
+        </transition>
         <div
-          v-if="!timeSort"
           class="btn"
-          v-on:click="
-            changeSortingParam('startDate');
-            timeSort = !timeSort;
-          "
-          key="time"
-        >
-          Alkamisjärjestykseen
-          <!-- järjestäminen tehdään alkuperäisellä aikatiedolla, ei Suomi-päivämäärällä -->
-        </div>
-
-        <div
-          v-else
-          class="btn"
-          v-on:click="
-            changeSortingParam('vLocalizedNameFi');
-            timeSort = !timeSort;
-          "
-          key="name"
-        >Aakkosjärjestykseen</div>
-      </transition>
-      <div
-        class="btn"
-        v-on:click="hidePastEnrollments = !hidePastEnrollments"
-      >{{ hidePastEnrollments ? "Näytä kaikki" : "Piilota umpeutuneet" }}</div>
-    </div>
-
-    <transition name="fade" mode="out-in">
-      <h3 key="notAll" v-if="hidePastEnrollments">Opintojaksot - ilmoittautuminen avoinna</h3>
-      <h3 key="all" v-else>Opintojaksot - kaikki</h3>
-    </transition>
-
-    <transition-group name="list" tag="div">
-      <div v-for="item in filteredList" :key="item.id">
-        <RealizationsData :realization="item"></RealizationsData>
+          v-on:click="hidePastEnrollments = !hidePastEnrollments"
+        >{{ hidePastEnrollments ? "Näytä kaikki" : "Piilota umpeutuneet" }}</div>
       </div>
-    </transition-group>
+
+      <transition name="fade" mode="out-in">
+        <h3 key="notAll" v-if="hidePastEnrollments">Opintojaksot - ilmoittautuminen avoinna</h3>
+        <h3 key="all" v-else>Opintojaksot - kaikki</h3>
+      </transition>
+
+      <transition-group name="list" tag="div">
+        <div v-for="item in filteredList" :key="item.id">
+          <RealizationsData :realization="item"></RealizationsData>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -178,7 +181,6 @@ input {
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
-  /* width: 50%; */
   margin: 5px 10px;
   padding: 5px;
   cursor: pointer;
