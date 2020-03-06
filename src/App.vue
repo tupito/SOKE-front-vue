@@ -25,16 +25,26 @@ export default { components: { TheFooter, TheHeader } };
 </script>
 
 <style>
+body {
+  background-color: #373737;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: #eef4f7;
+  color: #0a244d;
 }
 
 nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 nav a {

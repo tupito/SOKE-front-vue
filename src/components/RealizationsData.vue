@@ -1,14 +1,15 @@
 <template>
-  <div class="realization-list-item">
+  <div class="edu-list-item">
     <router-link
       :to="{
         name: 'RealizationItem',
         params: { realizationItemId: item.id, realization: item }
       }"
+      tag="div"
     >
       {{ item.vLocalizedNameFi }}
-      ( {{ toFinDate(item.startDate) }} - {{ toFinDate(item.endDate) }} ) (
-      ilmoittautuminen päättyy: {{ toFinDate(item.enrollmentEnd) }})
+      ( {{ toFinDate(item.startDate) }} - {{ toFinDate(item.endDate) }} )
+      <span>ilmoittautuminen päättyy: {{ toFinDate(item.enrollmentEnd) }}</span>
     </router-link>
   </div>
 </template>
@@ -28,8 +29,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.realization-list-item {
-}
-</style>
