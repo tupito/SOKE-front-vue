@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Avoin AMK -opintotarjonta SeAMK:ssa</h1>
+    <h1>Avoin AMK -opintotarjonta DEMO</h1>
     <p>Sovelluskehitys-harjoitustyö, OHSU19S</p>
     <hr />
   </div>

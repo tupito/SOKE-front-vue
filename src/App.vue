@@ -3,7 +3,6 @@
     <header>
       <TheHeader />
     </header>
-    <nav></nav>
     <section>
       <transition name="fade" mode="out-in">
         <router-view />

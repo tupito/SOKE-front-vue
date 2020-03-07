@@ -3,8 +3,8 @@
     <hr />
     <p>
       Huom. sovelluksessa käytettävä data ei vastaa todellista opintotarjontaa:
-      Kyseessä on vain hyvin pieni, datamallin suuntainen otos, jonka tietoja on
-      muutettu harjoitustyöhön sopivaksi.
+      <br />Kyseessä on vain erittäin pieni, datamallin suuntainen otos, jonka
+      tietoja on muokattu harjoitustyöhön sopivaksi.
     </p>
   </div>
 </template>
@@ -16,5 +16,7 @@ export default {};
 <style scoped>
 p {
   font-style: italic;
+  color: red;
+  font-weight: bold;
 }
 </style>
