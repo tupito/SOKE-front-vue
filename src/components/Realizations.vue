@@ -189,6 +189,14 @@ input {
   display: inline-block;
 }
 
+.btn:hover {
+  background-color: lightcyan;
+}
+
+.btn:active {
+  transform: translateY(4px);
+}
+
 .search-conditions-container {
   background-color: whitesmoke;
   border: 1px solid black;
