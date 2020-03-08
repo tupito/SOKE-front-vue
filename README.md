@@ -13,6 +13,7 @@ Sivusto on kolmetasoinen: Koulutusalat, opintojaksot ja opintojakson tiedot
 - transitiot
 - aikamuotojen suomalaistaminen (mixin)
 - routerlinkit (=alisivuille generoituu omat url:t jakamista varten)
+- responsiivisuus
 
 ### HUOM. Demosta puuttuvat ominaisuudet
 
