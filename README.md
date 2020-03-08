@@ -1,54 +1,28 @@
-# vue-harjtyo-front
+# Sovelluskehitys (Vue) harjtyö
 
-## Demo ajossa
+Avoimen AMK:n opintojaksotarjonnan etsimispalvelu. 
 
-Front on ajossa täällä: https://....
+Taustalla yksinkertaistettu REST-backend, joka simuloi oppilashallintajärjestelmästä haettavaa dataa. Backend Herokussa. Tämän harjoitustyön puitteissa data ei ole olennaista vaan Vuen käyttö.
 
-HUOM. Herokun backendin heräämisessä menee hetki...
+Sivusto on kolmetasoinen: Koulutusalat, opintojaksot ja opintojakson tiedot
 
-## Lyhyt kuvaus
+## Ominaisuuksista lyhyesti
 
-- Vuen testaamista Avoimen AMK:n opintotarjontaa koulutusaloittain/opintojaksoittain näyttämisessä.
-- Projektia varten on tehty väliaikainen yksinkertaistettu nodejs/rest-backend, jossa simuloidaan haettavaa dataa. Backend on ajossa Herokussa.
-- Kolmetasoinen sivusto: Koulutusalat, opintojaksot, opintojakso
-
-### Ominaisuuksista lyhyesti
-
-- Vue SFC (vuecli)
-- routerlinkeillä liikkuminen, alisivuilla omat url:t jakamista varten
-  - datan välitys ensisijaisesti routerlinkillä, toissijaisena datan haku api:sta jos sivun avaa suoralla linkillä
-- dynaamiset listat
-- opintojaksojen haku, järjestäminen, piilottaminen
+- Vue Single File Components (vuecli)
+- datan haku, suodatus, järjestäminen
 - transitiot
 - aikamuotojen suomalaistaminen (mixin)
-- tarkemmin wikissä...
+- routerlinkit (=alisivuille generoituu omat url:t jakamista varten)
 
-# VueCLI:n generoimat...
+### HUOM. Demosta puuttuvat ominaisuudet
 
-## Project setup
+Seuraavat ominaisuudet vaatisivat palvelinpään konfiguraatiomuutoksia, jotka menevät tämän kurssin aikataulun ulkopuolelle. **Eli seuraavat ominaisuudet toimivat vain jos Vue-projektin laittaa lokaaliin ajoon:**
 
-```
-npm install
-```
+ - Suoralla url:lla opintojakson tietojen avaaminen esim. (https://.../realizations/49/12154)
+   - Mikäli dataa ei saada routerlinkin kautta, niin haetaan data api:sta
 
-### Compiles and hot-reloads for development
+## Demo
 
-```
-npm run serve
-```
+https://tpt.kapsi.fi/vue
 
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+HUOM. Heroku-backendin heräämisessä saattaa mennä vajaa 10 sekuntia...
