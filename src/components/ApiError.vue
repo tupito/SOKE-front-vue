@@ -1,3 +1,4 @@
+<!-- Virheilmoitus -->
 <template>
   <div class="error">
     Tietojen hakeminen ei onnistunut...
@@ -5,10 +6,6 @@
     <br />Herokun backend on vasta heräämässä...
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style>
 .error {

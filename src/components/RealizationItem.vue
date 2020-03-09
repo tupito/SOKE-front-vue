@@ -13,8 +13,6 @@
     <ApiError v-if="!realizationItem"></ApiError>
     <!-- data haettu -->
     <div v-else>
-      <!-- koulutusalan id Realizations-routerlinkille -->
-
       <!-- Toteutuksen tiedot -->
       <RealizationItemData :realization="realizationItem"></RealizationItemData>
     </div>
@@ -62,5 +60,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
