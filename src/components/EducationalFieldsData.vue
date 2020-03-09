@@ -1,3 +1,4 @@
+<!-- Koulutusalojen tietojen näyttäminen -->
 <template>
   <div class="edu-list-item">
     <router-link

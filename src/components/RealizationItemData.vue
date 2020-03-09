@@ -1,3 +1,4 @@
+<!-- Opintojakson tietojen näyttäminen -->
 <template>
   <div class="realization-item-container">
     <h2>{{ realizationItem.courseUnit.localizedName.valueFi }}</h2>
@@ -36,6 +37,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 h3 {
   margin: 5px;

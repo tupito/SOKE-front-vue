@@ -1,3 +1,4 @@
+<!-- Opintojakson tietojen listaus -->
 <template>
   <div class="edu-list-item">
     <router-link

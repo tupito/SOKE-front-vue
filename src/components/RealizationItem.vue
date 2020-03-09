@@ -1,3 +1,4 @@
+<!-- Opintojakso -->
 <template>
   <div>
     <router-link to="/" tag="div" class="btn">Aloitussivulle</router-link>

@@ -1,3 +1,4 @@
+<!-- Koulutusalojen listaus -->
 <template>
   <div>
     <h2>Koulutusalat (Opintotarjonta)</h2>
