@@ -13,7 +13,7 @@
       <div class="search-conditions-container">
         <h3>Suodata/järjestä hakutuloksia</h3>
         <label for="searchTxt">Etsi nimellä</label>
-        <input type="text" id="seachTxt" v-model="searchInput" placeholder="esim..." />
+        <input type="text" id="seachTxt" v-model="searchInput" placeholder="esim. politiikka..." />
         <br />
         <transition name="fade" mode="out-in">
           <div
