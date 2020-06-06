@@ -10,8 +10,6 @@ const repositories = {
   // muut repositoriot tänne...
 };
 
-console.log("API call triggered");
-
 export const RepositoryFactory = {
   get: name => repositories[name]
 };
